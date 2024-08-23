@@ -8,7 +8,7 @@
       user-mail-address "dre.person@gmail.com")
 
 ;; Specify the theme
-(setq doom-theme 'doom-molokai)
+(setq doom-theme 'doom-homage-white)
 
 ;; Enable line numbers
 (setq display-line-numbers-type 'relative)
@@ -17,6 +17,7 @@
 (setq auto-save-default t
       make-backup-files t)
 
+;; Org mode configs
 (after! org
   ;; Set the default org directory
   (setq org-directory "/home/dre/Documents/org/")
@@ -52,6 +53,12 @@
   (org-journal-time-format "%I:%M %p")
   (org-journal-enable-agenda-integration t))
 
+;; Changing auto-complete stuff for org
+(after! company
+  (setq company-idle-delay nil) ;; Stop automcomplete
+  (define-key company-active-map (kbd "<tab>") #'company-complete-selection)
+  (define-key company-mode-map (kbd "<tab>") #'company-indent-or-complete-common))
+
 ;; Custom keybindings
 (defun insert-c-code-block ()
   "Insert a C Code block in org mode."
@@ -64,7 +71,9 @@
       :desc "M-x" "SPC" #'execute-extended-command
       :desc "Open Treemacs" "o T" #'treemacs
       :desc "Open vterm" "o v" #'vterm
-      :desc "Insert C code block" "# c" #'insert-c-code-block)
+      :desc "Insert C code block" "# c" #'insert-c-code-block
+      :desc "Open ToDo list" "t o" (lambda () (interactive)  (find-file "~/Documents/org/todo.org"))
+      :desc "Start/stop Pomodoro timer" "n p" #'org-pomodoro)
 
 
 (map! :i "M-e" (lambda () (interactive) (insert "é")))
